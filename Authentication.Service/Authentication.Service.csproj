@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Authentication.DataAccess\Authentication.DataAccess.csproj" />
+    <ProjectReference Include="..\Authentication.DataAccess.Service\Authentication.DataAccess.Service.csproj" />
+    <ProjectReference Include="..\FeatureLibrary\FeatureLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModel\" />
+    <PackageReference Include="MailKit" Version="4.7.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UserService\Interface\" />
   </ItemGroup>
 
 </Project>
