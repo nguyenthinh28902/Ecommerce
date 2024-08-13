@@ -1,6 +1,5 @@
 ﻿using Authentication.DataAccess.DataDefault;
-using Authentication.DataAccess.EntityModels.CustomerEntityModels;
-using Authentication.DataAccess.EntityModels.UserEntityModels;
+using Authentication.DataAccess.EntityModels;
 using Authentication.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Authentication.DataAccess.EntityModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Authentication.DataAccess.EntityModels.UserEntityModels
+namespace Authentication.DataAccess.EntityModels
 {
 
     public class AuthenticationUserDbContext : IdentityDbContext<ApplicationUser>

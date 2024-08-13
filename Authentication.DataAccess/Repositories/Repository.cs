@@ -7,15 +7,16 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Authentication.DataAccess.EntityModels;
 
 namespace Authentication.DataAccess.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly DbContext _context;
+        private readonly AuthenticationUserDbContext _context;
         private DbSet<T> _dbSet;
 
-        public Repository(DbContext context)
+        public Repository(AuthenticationUserDbContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();

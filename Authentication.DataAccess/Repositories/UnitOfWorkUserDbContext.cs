@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Authentication.DataAccess.EntityModels;
 
 namespace Authentication.DataAccess.Repositories
 {
@@ -13,9 +14,9 @@ namespace Authentication.DataAccess.Repositories
         private bool _disposed;
         private string _errorMessage = string.Empty;
         private IDbContextTransaction _contextTransaction;
-        public DbContext _context { get; }
+        public  AuthenticationUserDbContext _context { get; }
         private Dictionary<Type, object> _repositories;
-        public UnitOfWorkUserDbContext(DbContext context)
+        public UnitOfWorkUserDbContext(AuthenticationUserDbContext context)
         {
             _context = context;
             _contextTransaction = _context.Database.BeginTransaction();

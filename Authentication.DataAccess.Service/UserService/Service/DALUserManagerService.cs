@@ -1,4 +1,4 @@
-﻿using Authentication.DataAccess.EntityModels.UserEntityModels;
+﻿using Authentication.DataAccess.EntityModels;
 using Authentication.DataAccess.Service.UserService.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

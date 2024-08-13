@@ -1,0 +1,24 @@
+{
+  "Routes": [
+
+    {
+      "DownstreamPathTemplate": "/api/Authorization/v1/register",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "Post",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7179"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Authorization/v1/register",
+      "UpstreamHttpMethod": [ "Post" ]
+
+    }
+
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7268"
+  }
+}

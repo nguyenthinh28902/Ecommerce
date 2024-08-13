@@ -1,4 +1,4 @@
-﻿using Authentication.DataAccess.EntityModels.UserEntityModels;
+﻿using Authentication.DataAccess.EntityModels;
 using Authentication.Service.ViewModel.UserViewModels;
 using AutoMapper;
 using System;

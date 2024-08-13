@@ -1,4 +1,4 @@
-﻿using Authentication.DataAccess.EntityModels.UserEntityModels;
+﻿using Authentication.DataAccess.EntityModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

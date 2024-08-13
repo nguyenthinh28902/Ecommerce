@@ -1,4 +1,4 @@
-﻿using Authentication.DataAccess.EntityModels.UserEntityModels;
+﻿using Authentication.DataAccess.EntityModels;
 using Authentication.DataAccess.Repositories;
 using Authentication.DataAccess.Service.UserService.Interface;
 using FeatureLibrary.LogLibrary;

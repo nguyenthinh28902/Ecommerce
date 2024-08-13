@@ -1,4 +1,4 @@
-﻿using Authentication.DataAccess.EntityModels.UserEntityModels;
+﻿using Authentication.DataAccess.EntityModels;
 using Authentication.DataAccess.Service.User.Interface;
 using Authentication.DataAccess.Service.User.Service;
 using Authentication.DataAccess.Service.UserService.Interface;
@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Authentication.DataAccess.Enums;
+using Microsoft.AspNetCore.WebUtilities;
 namespace Authentication.Service.Services.UserService.Service
 {
     public class AuthenManagerService : IAuthenManagerService
@@ -98,6 +99,7 @@ namespace Authentication.Service.Services.UserService.Service
         public async Task<bool> AuthenSendMail(ApplicationUser applicationUser)
         {
             var emailConfirmation = await _dALAuthenManagerService.GenerateEmailConfirmationTokenAsync(applicationUser);
+            emailConfirmation = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmation));
             if (string.IsNullOrEmpty(emailConfirmation) || string.IsNullOrEmpty(applicationUser.Email)) { return false; }
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var templatePath = Path.Combine(baseDirectory, "Templates\\AuthenticationMail.html");

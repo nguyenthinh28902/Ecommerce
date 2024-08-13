@@ -1,4 +1,4 @@
-﻿using Authentication.DataAccess.EntityModels.UserEntityModels;
+﻿using Authentication.DataAccess.EntityModels;
 using Authentication.Service.ViewModel.SignInViewModels;
 using Microsoft.AspNetCore.Identity;
 using System;
