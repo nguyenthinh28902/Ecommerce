@@ -1,5 +1,4 @@
-﻿using Authentication.DataAccess.EntityModels;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Authentication.DataAccess.EntityModels
+namespace Authentication.DataAccess.EntityModels.UserEntityModels
 {
 
     public class AuthenticationUserDbContext : IdentityDbContext<ApplicationUser>
@@ -18,5 +17,6 @@ namespace Authentication.DataAccess.EntityModels
         {
         }
         public DbSet<ApplicationLog> ApplicationLogs { get; set; }
+        public DbSet<UserToken> UserTokens { get; set; }
     }
 }

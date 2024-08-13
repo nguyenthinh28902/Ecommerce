@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Authentication.DataAccess.EntityModels
+namespace Authentication.DataAccess.EntityModels.CustomerEntityModels
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationCustomer : IdentityUser
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+        public int CustomerId { get; set; }
     }
 }

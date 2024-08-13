@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Authentication.DataAccess\Authentication.DataAccess.csproj" />
+    <ProjectReference Include="..\FeatureLibrary\FeatureLibrary.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Authentication.DataAccess.EntityModels
+namespace Authentication.DataAccess.EntityModels.CustomerEntityModels
 {
     public class AuthenticationCustomerDbContext : IdentityDbContext<ApplicationCustomer>
     {

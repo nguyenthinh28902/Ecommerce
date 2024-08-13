@@ -1,5 +1,7 @@
 ﻿using Authentication.DataAccess.DataDefault;
-using Authentication.DataAccess.EntityModels;
+using Authentication.DataAccess.EntityModels.CustomerEntityModels;
+using Authentication.DataAccess.EntityModels.UserEntityModels;
+using Authentication.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +33,8 @@ namespace Authentication.DataAccess
                    b => b.MigrationsAssembly(typeof(AuthenticationCustomerDbContext).Assembly.FullName)));
 
 
-            services.Configure<IdentityOptions>(options => {
+            services.Configure<IdentityOptions>(options =>
+            {
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Khóa 5 phút
                 options.Lockout.MaxFailedAccessAttempts = 5; // Thất bại 5 lần thì khóa
                 options.Lockout.AllowedForNewUsers = true;
@@ -39,8 +42,9 @@ namespace Authentication.DataAccess
                 options.SignIn.RequireConfirmedPhoneNumber = true;
             });
 
-            services.AddIdentityCore<ApplicationUser>().AddEntityFrameworkStores<AuthenticationUserDbContext>();
-            services.AddIdentityCore<ApplicationCustomer>().AddEntityFrameworkStores<AuthenticationCustomerDbContext>();   
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AuthenticationUserDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationCustomer, IdentityRole>().AddEntityFrameworkStores<AuthenticationCustomerDbContext>().AddDefaultTokenProviders();
+            services.AddScoped<IUnitOfWork, UnitOfWorkUserDbContext>();
             return services;
         }
     }
