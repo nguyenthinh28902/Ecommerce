@@ -9,14 +9,14 @@ using Authentication.DataAccess.EntityModels;
 
 namespace Authentication.DataAccess.Repositories
 {
-    public class UnitOfWorkUserDbContext : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private bool _disposed;
         private string _errorMessage = string.Empty;
         private IDbContextTransaction _contextTransaction;
         public  AuthenticationUserDbContext _context { get; }
         private Dictionary<Type, object> _repositories;
-        public UnitOfWorkUserDbContext(AuthenticationUserDbContext context)
+        public UnitOfWork(AuthenticationUserDbContext context)
         {
             _context = context;
             _contextTransaction = _context.Database.BeginTransaction();

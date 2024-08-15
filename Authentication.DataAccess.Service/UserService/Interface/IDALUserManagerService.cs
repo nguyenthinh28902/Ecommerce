@@ -9,6 +9,6 @@ namespace Authentication.DataAccess.Service.UserService.Interface
 {
     public interface IDALUserManagerService
     {
-        public Task<ApplicationUser?> GetUserByUserIdAsync(int UserId);
+        public Task<ApplicationUser?> GetUserByUserIdAsync(string UserName);
     }
 }

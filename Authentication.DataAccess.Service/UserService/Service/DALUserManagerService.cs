@@ -18,9 +18,9 @@ namespace Authentication.DataAccess.Service.UserService.Service
             _userManager = userManager;
         }
 
-        public async Task<ApplicationUser?> GetUserByUserIdAsync(int UserId)
+        public async Task<ApplicationUser?> GetUserByUserIdAsync(string UserName)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserId == UserId);
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == UserName);
             return user;
         }
     }

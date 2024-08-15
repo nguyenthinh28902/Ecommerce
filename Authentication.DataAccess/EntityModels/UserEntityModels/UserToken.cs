@@ -11,7 +11,7 @@ namespace Authentication.DataAccess.EntityModels
     public partial class UserToken
     {
         public Guid Id { get; set; }
-        public string IdentityUserId { get; set; }
+        public string UserId { get; set; }
         public string LoginProvider { get; set; } = null!;
         public string AppName { get; set; } = null!;
         public string Token { get; set; } = null!;
@@ -19,7 +19,7 @@ namespace Authentication.DataAccess.EntityModels
         public DateTimeOffset ExpiresAt { get; set; }
         public string IpClient { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-        [ForeignKey("IdentotyUserId")]
+        [ForeignKey("UserId")]
         public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

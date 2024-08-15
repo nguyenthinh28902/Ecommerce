@@ -53,7 +53,7 @@ namespace Authentication.Service.Services.UserService.Service
             var signInResult = await CheckSignInAsync(signInViewModel);
             if (signInResult.IsSucceeded)
             {
-                var user = await _dALUserManagerService.GetUserByUserIdAsync(signInViewModel.UserId);
+                var user = await _dALUserManagerService.GetUserByUserIdAsync(signInViewModel.UserName);
                 var userViewModel = _mapper.Map<UserViewModel>(user);
                 try
                 {
@@ -76,11 +76,11 @@ namespace Authentication.Service.Services.UserService.Service
         public async Task<SignInResultViewModel> CheckSignInAsync(SignInViewModel signInViewModel)
         {
             var signInResultViewModel = new SignInResultViewModel();
-            var signInResult = await _dALAuthenManagerService.SignInResultAsync(signInViewModel.UserId, signInViewModel.PassWord, signInViewModel.RememberMe);
+            var signInResult = await _dALAuthenManagerService.SignInResultAsync(signInViewModel.UserName, signInViewModel.PassWord, signInViewModel.RememberMe);
             signInResultViewModel.IsSucceeded = signInResult == null ? false : signInResult.Succeeded;
             if (signInResult != null && !signInResult.Succeeded)
             {
-                var user = await _dALUserManagerService.GetUserByUserIdAsync(signInViewModel.UserId);
+                var user = await _dALUserManagerService.GetUserByUserIdAsync(signInViewModel.UserName);
                 if (user != null && (user.EmailConfirmed || user.PhoneNumberConfirmed))
                 {
                     var IsAuthenSendMail = await AuthenSendMail(user);

@@ -9,6 +9,6 @@ namespace Authentication.Service.Helpers.Jwt
     public static class CustomClaimTypes
     {
         public const string Id = "id";
-        public const string UserId = "UserId";
+        public const string UserName = "UserName";
     }
 }

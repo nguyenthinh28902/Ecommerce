@@ -4,6 +4,7 @@ using Authentication.DataAccess.EntityModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Authentication.DataAccess.Migrations
 {
     [DbContext(typeof(AuthenticationUserDbContext))]
-    partial class AuthenticationUserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240813193357_UserToken_changname_UserId")]
+    partial class UserToken_changname_UserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,6 +148,9 @@ namespace Authentication.DataAccess.Migrations
                     b.Property<DateTimeOffset>("ExpiresAt")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("IdentotyUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("IpClient")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -162,11 +168,11 @@ namespace Authentication.DataAccess.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("IdentotyUserId");
 
                     b.ToTable("UserTokens");
                 });
@@ -308,9 +314,7 @@ namespace Authentication.DataAccess.Migrations
                 {
                     b.HasOne("Authentication.DataAccess.EntityModels.ApplicationUser", "ApplicationUser")
                         .WithMany("UserTokens")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdentotyUserId");
 
                     b.Navigation("ApplicationUser");
                 });

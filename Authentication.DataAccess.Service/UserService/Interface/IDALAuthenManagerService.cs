@@ -11,9 +11,9 @@ namespace Authentication.DataAccess.Service.User.Interface
 {
     public interface IDALAuthenManagerService
     {
-        public Task<SignInResultModel?> SignInResultAsync(int UserId, string PassWord, bool RememberMe);
+        public Task<SignInResultModel?> SignInResultAsync(string UserName, string PassWord, bool RememberMe);
         public Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user);
-        public Task<string> GenerateEmailConfirmationTokenAsync(int UserId);
+        public Task<string> GenerateEmailConfirmationTokenAsync(string UserName);
         public Task<string> GenerateEmailConfirmationTokenAsync(Guid Id);
     }
 }

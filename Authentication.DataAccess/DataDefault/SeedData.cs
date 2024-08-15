@@ -32,7 +32,6 @@ namespace Authentication.DataAccess.DataDefault
                 //user
                 var user = new ApplicationUser
                 {
-                    Id = Guid.NewGuid().ToString().ToLower(),
                     UserName = "1",
                     Email = "thinh48691953@gmail.com",
                     PhoneNumber = "0359342009",

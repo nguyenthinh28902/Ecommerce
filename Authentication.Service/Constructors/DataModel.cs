@@ -14,7 +14,7 @@ namespace Authentication.Service.Constructors
             string IdentytiUserId, TokenType TokenType, string IpClient)
         {
             var userToken = new UserToken();
-            userToken.IdentityUserId = IdentytiUserId;
+            userToken.UserId = IdentytiUserId;
             userToken.Token = JwtToken;
             userToken.LoginProvider = LoginProvider;
             userToken.AppName = AppName;

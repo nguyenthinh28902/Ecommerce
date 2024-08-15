@@ -22,6 +22,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddRegisterConfiguration(builder.Configuration);
 builder.Services.AddServiceLayer(builder.Configuration);
 builder.Services.AddControllersWithViews();
+var check = builder.Configuration["JwtSetting:Issuer"];
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(option =>
     {

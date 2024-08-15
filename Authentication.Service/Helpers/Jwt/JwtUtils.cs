@@ -21,7 +21,7 @@ namespace Authentication.Service.Helpers.Jwt
 
             var Claims = new List<Claim>();
             Claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            Claims.Add(new Claim(CustomClaimTypes.UserId, user.UserId.ToString()));
+            Claims.Add(new Claim(CustomClaimTypes.UserName, user.UserName.ToString()));
             Claims.Add(new Claim(ClaimTypes.Name, user.Name.ToString()));
             Claims.Add(new Claim(ClaimTypes.GivenName, user.DisplayName.ToString()));
             Claims.Add(new Claim(ClaimTypes.MobilePhone, user.PhoneNumber.ToString()));

@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureLibrary", "FeatureLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.DataAccess.Service", "Authentication.DataAccess.Service\Authentication.DataAccess.Service.csproj", "{A6FF7EAE-EA66-4B83-A1CB-4E2EBFCF8301}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway.Admin", "ApiGateway.Admin\ApiGateway.Admin.csproj", "{7943DA1F-74A0-466A-84B4-64DC516DF91A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway.Admin", "ApiGateway.Admin\ApiGateway.Admin.csproj", "{7943DA1F-74A0-466A-84B4-64DC516DF91A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

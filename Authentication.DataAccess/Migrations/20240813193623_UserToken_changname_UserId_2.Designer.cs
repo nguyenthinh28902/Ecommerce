@@ -4,6 +4,7 @@ using Authentication.DataAccess.EntityModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Authentication.DataAccess.Migrations
 {
     [DbContext(typeof(AuthenticationUserDbContext))]
-    partial class AuthenticationUserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240813193623_UserToken_changname_UserId_2")]
+    partial class UserToken_changname_UserId_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

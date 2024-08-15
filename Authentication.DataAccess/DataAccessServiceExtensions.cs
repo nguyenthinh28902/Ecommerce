@@ -25,13 +25,6 @@ namespace Authentication.DataAccess
                     authenticationUserService, // Chuỗi kết nối của bạn
                     b => b.MigrationsAssembly(typeof(AuthenticationUserDbContext).Assembly.FullName)));
 
-            var authenticationCustomerService = configuration.GetConnectionString("AuthenticationCustomerService");
-            services.AddDbContext<AuthenticationCustomerDbContext>(options =>
-               options.UseSqlServer(
-                   authenticationCustomerService, // Chuỗi kết nối của bạn
-                   b => b.MigrationsAssembly(typeof(AuthenticationCustomerDbContext).Assembly.FullName)));
-
-
             services.Configure<IdentityOptions>(options =>
             {
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Khóa 5 phút
@@ -41,9 +34,8 @@ namespace Authentication.DataAccess
                 options.SignIn.RequireConfirmedPhoneNumber = true;
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AuthenticationUserDbContext>().AddDefaultTokenProviders();
-            services.AddIdentity<ApplicationCustomer, IdentityRole>().AddEntityFrameworkStores<AuthenticationCustomerDbContext>().AddDefaultTokenProviders();
-            services.AddScoped<IUnitOfWork, UnitOfWorkUserDbContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AuthenticationUserDbContext>().AddDefaultTokenProviders();         
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }
     }

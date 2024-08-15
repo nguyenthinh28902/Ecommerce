@@ -23,9 +23,9 @@ namespace Authentication.DataAccess.Service.User.Service
             _signInManager = signInManager;
         }
 
-        public async Task<SignInResultModel?> SignInResultAsync(int UserId, string PassWord, bool RememberMe = false)
+        public async Task<SignInResultModel?> SignInResultAsync(string UserName, string PassWord, bool RememberMe = false)
         {
-            var userSignIn = await _userManager.Users.FirstOrDefaultAsync(x => x.UserId == UserId);
+            var userSignIn = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == UserName);
             if (userSignIn != null)
             {
                 var result = await _signInManager.PasswordSignInAsync(userSignIn, PassWord, RememberMe, true);
@@ -56,9 +56,9 @@ namespace Authentication.DataAccess.Service.User.Service
         /// </summary>
         /// <param name="UserId">userId của user các xác thực</param>
         /// <returns>trả về chuối code xác thực</returns>
-        public async Task<string> GenerateEmailConfirmationTokenAsync(int UserId)
+        public async Task<string> GenerateEmailConfirmationTokenAsync(string UserName)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserId == UserId);
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == UserName);
             if (user == null) return string.Empty;
             return await GenerateEmailConfirmationTokenAsync(user);
         }
