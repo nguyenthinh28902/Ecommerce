@@ -1,5 +1,5 @@
-﻿using Authentication.Service.Services.UserService.Service;
-using Authentication.Service.ViewModel.SignInViewModels;
+﻿using Authentication.Admin.Service.Services.UserServices.Interfaces;
+using Authentication.Admin.Service.ViewModels.SignInViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +11,8 @@ namespace Authentication.Admin.Api.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly ILogger<AuthenticationController> _logger;
-        private readonly AuthenManagerService _authenManagerService;
-        public AuthenticationController(ILogger<AuthenticationController> logger, AuthenManagerService authenManagerService)
+        private readonly IAuthenManagerService _authenManagerService;
+        public AuthenticationController(ILogger<AuthenticationController> logger, IAuthenManagerService authenManagerService)
         {
             _logger = logger;
             _authenManagerService = authenManagerService;
@@ -23,7 +23,17 @@ namespace Authentication.Admin.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SignIn([FromBody] SignInViewModel signInViewModel)
         {
-            var userSignIn = await _authenManagerService.SignInAsync(signInViewModel);
+            var confirmedEmail = Url.ActionLink("ConfirmedEmail", "Authentication") ?? string.Empty;
+            var userSignIn = await _authenManagerService.SignInAsync(signInViewModel, confirmedEmail);
+            return Ok(userSignIn);
+        }
+
+        [Route("v1/admin/confirm-email")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmedEmail([FromForm] string userId, [FromForm] string code)
+        {
+            var userSignIn = await _authenManagerService.ConfirmEmailAsync(userId, code);
             return Ok(userSignIn);
         }
 

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Authentication.Admin.DataAccess\Authentication.Admin.DataAccess.csproj" />
+    <ProjectReference Include="..\FeatureLibrary\FeatureLibrary.csproj" />
+  </ItemGroup>
+
+</Project>
