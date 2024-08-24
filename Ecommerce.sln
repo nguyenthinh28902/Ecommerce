@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.User.DataAcc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.User.Service", "Authentication.User.Service\Authentication.User.Service.csproj", "{DB124158-9A67-476F-B587-812F1542E0EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Admin.Test", "Authentication.Admin.Test\Authentication.Admin.Test.csproj", "{F0A91108-E674-48E4-B26D-26EEFB34DFD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Admin.Service.Test", "Authentication.Admin.Service.Test\Authentication.Admin.Service.Test.csproj", "{6931956D-1CE2-4822-A555-1A922CA597EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,10 +83,10 @@ Global
 		{DB124158-9A67-476F-B587-812F1542E0EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB124158-9A67-476F-B587-812F1542E0EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB124158-9A67-476F-B587-812F1542E0EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0A91108-E674-48E4-B26D-26EEFB34DFD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0A91108-E674-48E4-B26D-26EEFB34DFD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0A91108-E674-48E4-B26D-26EEFB34DFD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0A91108-E674-48E4-B26D-26EEFB34DFD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6931956D-1CE2-4822-A555-1A922CA597EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6931956D-1CE2-4822-A555-1A922CA597EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6931956D-1CE2-4822-A555-1A922CA597EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6931956D-1CE2-4822-A555-1A922CA597EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,7 +101,7 @@ Global
 		{72EFAE06-3DE3-4AA2-A252-FB7960E190E2} = {C64B3923-259F-464C-9B0A-B28586C24ECA}
 		{66A0AB08-392D-4799-A774-5032A00AE5B1} = {C64B3923-259F-464C-9B0A-B28586C24ECA}
 		{DB124158-9A67-476F-B587-812F1542E0EE} = {C64B3923-259F-464C-9B0A-B28586C24ECA}
-		{F0A91108-E674-48E4-B26D-26EEFB34DFD3} = {30F62069-9B78-4CB6-8891-920357CE6E9F}
+		{6931956D-1CE2-4822-A555-1A922CA597EF} = {30F62069-9B78-4CB6-8891-920357CE6E9F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {647EB1DE-1CD5-48AB-933F-B21F13A8AD7A}

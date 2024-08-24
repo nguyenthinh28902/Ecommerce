@@ -20,8 +20,6 @@ namespace Authentication.User.DataAccess.Service
 
             services.AddScoped<IDALAuthenManagerService, DALAuthenManagerService>();
             services.AddScoped<IDALUserManagerService, DALUserManagerService>();
-            
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDALUserTokenMannagerService, DALUserTokenMannagerService>();
             return services;
         }

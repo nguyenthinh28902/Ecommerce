@@ -1,4 +1,5 @@
 ﻿using Authentication.Admin.DataAccess.Entities;
+using Authentication.Admin.DataAccess.Repositories;
 using Authentication.Admin.DataAccess.Service.SignInModels;
 using Authentication.Admin.DataAccess.Service.UserServices.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -15,13 +16,13 @@ namespace Authentication.Admin.DataAccess.Service.UserServices.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly AuthenticationUserDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
         public DALAuthenManagerService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-            AuthenticationUserDbContext context)
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<SignInResultModel?> SignInResultAsync(string UserName, string PassWord, bool RememberMe = false)
@@ -29,12 +30,23 @@ namespace Authentication.Admin.DataAccess.Service.UserServices.Services
             var userSignIn = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == UserName);
             if (userSignIn != null)
             {
-                var result = await _signInManager.PasswordSignInAsync(userSignIn, PassWord, RememberMe, true);
                 var resultModel = new SignInResultModel();
-                resultModel.Succeeded = result.Succeeded;
-                resultModel.IsLockedOut = result.IsLockedOut;
-                resultModel.RequiresTwoFactor = result.RequiresTwoFactor;
-                resultModel.IsEmailConfirmed = _userManager.Options.SignIn.RequireConfirmedAccount;
+                try
+                {
+                    var result = await _signInManager.PasswordSignInAsync(userSignIn, PassWord, RememberMe, true);
+                   
+                    resultModel.Succeeded = result.Succeeded;
+                    resultModel.IsLockedOut = result.IsLockedOut;
+                    resultModel.RequiresTwoFactor = result.RequiresTwoFactor;
+                    resultModel.IsEmailConfirmed = _userManager.Options.SignIn.RequireConfirmedAccount;
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+                
+              
                 return resultModel;
             }
             return null;
@@ -53,7 +65,7 @@ namespace Authentication.Admin.DataAccess.Service.UserServices.Services
             {
                 user.UpdateAt = DateTimeOffset.UtcNow;
                 var demo = await _userManager.UpdateAsync(user);
-                await _context.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
             }
             catch (Exception)
             {

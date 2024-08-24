@@ -14,6 +14,7 @@ namespace Authentication.Admin.Service.MapperProfiles
         public MappingUser()
         {
             CreateMap<ApplicationUser, UserViewModel>();
+            CreateMap<RegisterUserViewModel, ApplicationUser>();
         }
     }
 }

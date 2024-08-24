@@ -31,8 +31,7 @@ namespace Authentication.Admin.DataAccess.Service.UserServices.Services
             {
                
                 await _userRepository.AddAsync(userToken);
-                await _unitOfWork.CommitAsync();
-                await _unitOfWork.SaveChangeAsync();
+                await _unitOfWork.SaveChangesAsync();
                 result.Value = userToken;
                 result.IsSuccess = true;
             }

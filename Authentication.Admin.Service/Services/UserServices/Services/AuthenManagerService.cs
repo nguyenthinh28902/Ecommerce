@@ -43,6 +43,12 @@ namespace Authentication.Admin.Service.Services.UserServices.Services
             _accessor = accessor;
         }
 
+        /// <summary>
+        /// Login
+        /// </summary>
+        /// <param name="signInViewModel">thông tin đăng nhập</param>
+        /// <param name="urlComfirm">link web để gửi email xác nhận</param>
+        /// <returns></returns>
         public async Task<SignInResultViewModel> SignInAsync(SignInViewModel signInViewModel, string urlComfirm)
         {
             var signInResult = await CheckSignInAsync(signInViewModel);
@@ -69,13 +75,18 @@ namespace Authentication.Admin.Service.Services.UserServices.Services
             {
                 if ((!user.EmailConfirmed && !user.PhoneNumberConfirmed))
                 {
-                    var IsAuthenSendMail = await AuthenSendMail(user, urlComfirm);
+                    var IsAuthenSendMail = await AuthenSendMailAsync(user, urlComfirm);
                     signInResult.Message = IsAuthenSendMail ? "Kiểm tra email" : "Có lỗi trong quá trính xử lý";
                 }
             }
             return signInResult;
         }
 
+        /// <summary>
+        /// check thông tin đăng nhập
+        /// </summary>
+        /// <param name="signInViewModel">thông tin đăng nhập</param>
+        /// <returns></returns>
         public async Task<SignInResultViewModel> CheckSignInAsync(SignInViewModel signInViewModel)
         {
             var signInResultViewModel = new SignInResultViewModel();
@@ -90,9 +101,43 @@ namespace Authentication.Admin.Service.Services.UserServices.Services
             return signInResultViewModel;
         }
 
-        public async Task<bool> AuthenSendMail(ApplicationUser applicationUser, string urlComfirm)
+
+        /// <summary>
+        /// Tạo mã email login
+        /// </summary>
+        /// <param name="UserId">id identity user cần confirm</param>
+        /// <returns>trả về mã</returns>
+        public async Task<string> GenerateEmailConfirmationTokenAsync(string UserId)
         {
+            var applicationUser = await _dALUserManagerService.GetUserByIdAsync(UserId);
+            if (applicationUser == null) return string.Empty;
             var emailConfirmation = await _dALAuthenManagerService.GenerateEmailConfirmationTokenAsync(applicationUser);
+            return emailConfirmation;
+        }
+
+        /// <summary>
+        /// send email code
+        /// </summary>
+        /// <param name="UserId">id identity cần xác nhận</param>
+        /// <param name="urlComfirm">link web để gửi email xác nhận</param>
+        /// <returns></returns>
+        public async Task<bool> AuthenSendMailAsync(string UserId, string urlComfirm)
+        {
+            var applicationUser = await _dALUserManagerService.GetUserByIdAsync(UserId);
+            if (applicationUser == null) return false;
+            var result = await AuthenSendMailAsync(applicationUser, urlComfirm);
+            return result;
+        }
+
+        /// <summary>
+        /// send email code
+        /// </summary>
+        /// <param name="ApplicationUser">user cần login</param>
+        /// <param name="urlComfirm">link web để gửi email xác nhận</param>
+        /// <returns></returns>
+        public async Task<bool> AuthenSendMailAsync(ApplicationUser applicationUser, string urlComfirm)
+        {
+            var emailConfirmation = await GenerateEmailConfirmationTokenAsync(applicationUser.Id);
             emailConfirmation = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmation));
             if (string.IsNullOrEmpty(emailConfirmation) || string.IsNullOrEmpty(applicationUser.Email)) { return false; }
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -113,6 +158,12 @@ namespace Authentication.Admin.Service.Services.UserServices.Services
             return true;
         }
 
+        /// <summary>
+        /// Xác nhận email
+        /// </summary>
+        /// <param name="UserId">id identity cần xác nhận</param>
+        /// <param name="Code">code</param>
+        /// <returns></returns>
         public async Task<ConfirmEmailViewModel> ConfirmEmailAsync(string UserId, string Code)
         {
             var confirmEmailViewModel = new ConfirmEmailViewModel();
@@ -124,6 +175,5 @@ namespace Authentication.Admin.Service.Services.UserServices.Services
             confirmEmailViewModel.Message = IsConfirmEmail ? "Xác nhận mã thành công." : "Xác nhận mã thất bại.";
             return confirmEmailViewModel;
         }
-
     }
 }

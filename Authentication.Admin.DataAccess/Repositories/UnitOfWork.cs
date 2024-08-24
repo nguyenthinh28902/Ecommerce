@@ -13,13 +13,11 @@ namespace Authentication.Admin.DataAccess.Repositories
     {
         private bool _disposed;
         private string _errorMessage = string.Empty;
-        private IDbContextTransaction _contextTransaction;
         public AuthenticationUserDbContext _context { get; }
         private Dictionary<Type, object> _repositories;
         public UnitOfWork(AuthenticationUserDbContext context)
         {
             _context = context;
-            _contextTransaction = _context.Database.BeginTransaction();
             _repositories = new Dictionary<Type, object>();
         }
 
@@ -38,7 +36,7 @@ namespace Authentication.Admin.DataAccess.Repositories
 
         public async Task CommitAsync()
         {
-            await _contextTransaction.CommitAsync();
+            await _context.Database.BeginTransactionAsync().Result.CommitAsync();
         }
 
         public async void Dispose()
@@ -49,15 +47,17 @@ namespace Authentication.Admin.DataAccess.Repositories
 
         public async Task RollbackAsync()
         {
-            await _contextTransaction.RollbackAsync();
-            await _contextTransaction.DisposeAsync();
+            await _context.Database.BeginTransactionAsync().Result.RollbackAsync();
+            await _context.Database.BeginTransactionAsync().Result.DisposeAsync();
         }
 
-        public async Task SaveChangeAsync()
+        public async Task SaveChangesAsync()
         {
+
             try
             {
                 await _context.SaveChangesAsync();
+                await _context.Database.BeginTransactionAsync().Result.CommitAsync();
             }
             catch (DbUpdateException ex)
             {

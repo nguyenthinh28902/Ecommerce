@@ -11,7 +11,7 @@ namespace Authentication.Admin.DataAccess.Repositories
         IRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
         Task CommitAsync();
         Task RollbackAsync();
-        Task SaveChangeAsync();
+        Task SaveChangesAsync();
 
     }
 }

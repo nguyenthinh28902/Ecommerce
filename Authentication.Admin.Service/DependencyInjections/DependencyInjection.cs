@@ -26,6 +26,7 @@ namespace Authentication.Admin.Service.DependencyInjections
 
             services.AddScoped<IJwtUtils, JwtUtils>();
             services.AddScoped<IAuthenManagerService, AuthenManagerService>();
+            services.AddScoped<IUserManagerService, UserManagerService>();
 
             return services;
         }

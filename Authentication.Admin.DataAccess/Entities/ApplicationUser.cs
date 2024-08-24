@@ -11,7 +11,7 @@ namespace Authentication.Admin.DataAccess.Entities
     {
         public string Avatar { get; set; }
         public string DisplayName { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset? UpdateAt { get; set; }
         public virtual ICollection<UserToken> UserTokens { get; set; }
     }

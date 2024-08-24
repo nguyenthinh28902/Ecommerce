@@ -16,7 +16,8 @@ namespace Authentication.Admin.DataAccess
             var AuthenticationAdminService = configuration.GetConnectionString("AuthenticationAdminService");
             // Đăng ký DbContext
             services.AddDbContext<AuthenticationUserDbContext>(options =>
-                options.UseSqlServer(AuthenticationAdminService));
+                options.UseSqlServer(AuthenticationAdminService, sqlServerOptions => sqlServerOptions.EnableRetryOnFailure())
+                );
 
             //services.Configure<IdentityOptions>(options => {
             //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Khóa 5 phút
