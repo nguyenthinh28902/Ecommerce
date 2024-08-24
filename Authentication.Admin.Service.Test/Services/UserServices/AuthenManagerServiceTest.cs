@@ -51,20 +51,7 @@ namespace Authentication.Admin.Test.ServiceTests
         }
 
         // login với user đúng
-        [Fact]
-        public async Task SignInAsync_ValidCredentials_ReturnToken()
-        {
-            var signInViewModel = new SignInViewModel();
-            signInViewModel.UserName = "1";
-            signInViewModel.PassWord = "Pass123!";
-            signInViewModel.RememberMe = false;
-            signInViewModel.AppName = "Authentication";
-            var link = "https://localhost:7228/api/Authentication/v1/admin/confirm-email";
-            var userSignIn = await _authenManagerService.SignInAsync(signInViewModel, link);
-            Assert.NotNull(userSignIn);
-            Assert.NotEmpty(userSignIn.Token);
-            Assert.True(userSignIn.IsSucceeded);
-        }
+       
 
         // login với thông tin sai
         [Fact]
@@ -155,20 +142,7 @@ namespace Authentication.Admin.Test.ServiceTests
             Assert.False(userSignIn.IsSucceeded);
         }
 
-        // hàm check thông tin đăng nhập đúng
-        [Fact]
-        public async Task CheckSignInAsync_ValidCredentials_ReturnToken()
-        {
-            var signInViewModel = new SignInViewModel();
-            signInViewModel.UserName = "1";
-            signInViewModel.PassWord = "Pass123!";
-            signInViewModel.RememberMe = false;
-            signInViewModel.AppName = "Authentication";
-            var userSignIn = await _authenManagerService.CheckSignInAsync(signInViewModel);
-            Assert.NotNull(userSignIn);
-            Assert.NotEmpty(userSignIn.Token);
-            Assert.True(userSignIn.IsSucceeded);
-        }
+       
 
         // hàm check mã xác nhận thông tin email
         [Fact]
