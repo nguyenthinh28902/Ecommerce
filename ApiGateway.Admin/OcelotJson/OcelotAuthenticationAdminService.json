@@ -1,19 +1,49 @@
 {
   "Routes": [
-
     {
-      "DownstreamPathTemplate": "/api/Authorization/v1/register",
+      "DownstreamPathTemplate": "/api/Authentication/v1/admin/sign-in",
       "DownstreamSchema": "https",
       "DownstreamHttpMethod": "Post",
       "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "7179"
+          "Port": "7093"
         }
       ],
-      "UpstreamPathTemplate": "/api/Authorization/v1/register",
+      "UpstreamPathTemplate": "/api/Authentication/v1/admin/sign-in",
       "UpstreamHttpMethod": [ "Post" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/Authentication/v1/admin/confirm-email",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "Post",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7093"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Authentication/v1/admin/confirm-email",
+      "UpstreamHttpMethod": [ "Post" ]
+
+    }
+    ,
+    {
+      "DownstreamPathTemplate": "/api/Authentication/v1/admin/Demo",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "Get",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7093"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Authentication/v1/admin/Demo",
+      "UpstreamHttpMethod": [ "Get" ]
 
     }
 

@@ -13,7 +13,7 @@ namespace Authentication.Admin.DataAccess.Entities
     {
         public Guid Id { get; set; }
 
-        public Guid IdentityId { get; set; }
+        public Guid UserId { get; set; }
 
         public string UserAction { get; set; } = null!;
 

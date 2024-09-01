@@ -112,6 +112,7 @@ namespace Authentication.Admin.Service.Services.UserServices.Services
             var applicationUser = await _dALUserManagerService.GetUserByIdAsync(UserId);
             if (applicationUser == null) return string.Empty;
             var emailConfirmation = await _dALAuthenManagerService.GenerateEmailConfirmationTokenAsync(applicationUser);
+            emailConfirmation = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmation));
             return emailConfirmation;
         }
 
@@ -138,7 +139,7 @@ namespace Authentication.Admin.Service.Services.UserServices.Services
         public async Task<bool> AuthenSendMailAsync(ApplicationUser applicationUser, string urlComfirm)
         {
             var emailConfirmation = await GenerateEmailConfirmationTokenAsync(applicationUser.Id);
-            emailConfirmation = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmation));
+            
             if (string.IsNullOrEmpty(emailConfirmation) || string.IsNullOrEmpty(applicationUser.Email)) { return false; }
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var templatePath = Path.Combine(baseDirectory, "Templates\\AuthenticationMail.html");

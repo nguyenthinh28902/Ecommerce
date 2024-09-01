@@ -26,7 +26,7 @@ namespace Authentication.User.DataAccess
                 options.SignIn.RequireConfirmedPhoneNumber = true;
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AuthenticationUserDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, ApplicationRole>().AddEntityFrameworkStores<AuthenticationUserDbContext>().AddDefaultTokenProviders();
             return services;
         }
     }

@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureLibrary", "FeatureLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway.Admin", "ApiGateway.Admin\ApiGateway.Admin.csproj", "{7943DA1F-74A0-466A-84B4-64DC516DF91A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication.Customer", "Authentication.Customer", "{C64B3923-259F-464C-9B0A-B28586C24ECA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication.User", "Authentication.User", "{C64B3923-259F-464C-9B0A-B28586C24ECA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Api", "Authentication.Api\Authentication.Api.csproj", "{0BE4F501-3238-490B-888E-68450C8C3BEB}"
 EndProject
@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.User.DataAcc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.User.Service", "Authentication.User.Service\Authentication.User.Service.csproj", "{DB124158-9A67-476F-B587-812F1542E0EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Admin.Service.Test", "Authentication.Admin.Service.Test\Authentication.Admin.Service.Test.csproj", "{6931956D-1CE2-4822-A555-1A922CA597EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Admin.Service.Test", "Authentication.Admin.Service.Test\Authentication.Admin.Service.Test.csproj", "{6931956D-1CE2-4822-A555-1A922CA597EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

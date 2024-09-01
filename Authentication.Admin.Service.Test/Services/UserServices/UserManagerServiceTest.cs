@@ -74,9 +74,9 @@ namespace Authentication.Admin.Service.Test.Services.UserServices
             userRegister.Avatar = string.Empty;
             userRegister.DisplayName = "Super Admin";
             var userResult = await _userManagerService.CreatedUserAsync(userRegister);
-            Assert.True(userResult.IsSuccess);
+            Assert.False(userResult.IsSuccess);
             Assert.NotNull(userResult);
-            Assert.NotNull(userResult.Value);
+            Assert.Null(userResult.Value);
 
             //phone đã tồn tại
             var userRegister1 = new RegisterUserViewModel();
@@ -87,9 +87,9 @@ namespace Authentication.Admin.Service.Test.Services.UserServices
             userRegister1.Avatar = string.Empty;
             userRegister1.DisplayName = "Super Admin";
             var userResult1 = await _userManagerService.CreatedUserAsync(userRegister1);
-            Assert.True(userResult1.IsSuccess);
+            Assert.False(userResult1.IsSuccess);
             Assert.NotNull(userResult1);
-            Assert.NotNull(userResult1.Value);
+            Assert.Null(userResult1.Value);
 
             //email tồn tại
             var userRegister2 = new RegisterUserViewModel();
@@ -100,9 +100,9 @@ namespace Authentication.Admin.Service.Test.Services.UserServices
             userRegister2.Avatar = string.Empty;
             userRegister2.DisplayName = "Super Admin";
             var userResult2 = await _userManagerService.CreatedUserAsync(userRegister2);
-            Assert.True(userResult2.IsSuccess);
+            Assert.False(userResult2.IsSuccess);
             Assert.NotNull(userResult2);
-            Assert.NotNull(userResult2.Value);
+            Assert.Null(userResult2.Value);
 
             //UserName tồn tại
             var userRegister3 = new RegisterUserViewModel();
@@ -113,9 +113,9 @@ namespace Authentication.Admin.Service.Test.Services.UserServices
             userRegister3.Avatar = string.Empty;
             userRegister3.DisplayName = "Super Admin";
             var userResult3 = await _userManagerService.CreatedUserAsync(userRegister3);
-            Assert.True(userResult3.IsSuccess);
+            Assert.False(userResult3.IsSuccess);
             Assert.NotNull(userResult3);
-            Assert.NotNull(userResult3.Value);
+            Assert.Null(userResult3.Value);
         }
     }
 }
