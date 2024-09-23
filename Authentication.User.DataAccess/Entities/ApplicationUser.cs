@@ -14,5 +14,5 @@ namespace Authentication.User.DataAccess.Entities
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdateAt { get; set; }
         public virtual ICollection<UserToken> UserTokens { get; set; }
-    }
+    } 
 }

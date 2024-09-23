@@ -16,5 +16,7 @@ namespace Authentication.User.DataAccess.Entities
         }
         public DbSet<ApplicationLog> ApplicationLogs { get; set; }
         public DbSet<UserToken> UserTokens { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<Store> Store { get; set; }
     }
 }

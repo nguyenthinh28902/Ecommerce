@@ -14,7 +14,7 @@ namespace Authentication.User.DataAccess.Entities
     {
         public Guid Id { get; set; }
         [Required]
-        public Guid StoreOwer { get; set; }
+        public string StoreOwer { get; set; }
         public string Logo { get; set; }
         public string Name { get; set; }
         [Required]
@@ -33,7 +33,8 @@ namespace Authentication.User.DataAccess.Entities
         public string PostalCode { get; set; }
         [Url]
         public string WebsiteURL { get; set; } = null!;
-        public string IsActive { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsApprove { get; set; }
         [ForeignKey("StoreOwer")]
         public virtual ApplicationUser ApplicationUser { get; set; }
     }

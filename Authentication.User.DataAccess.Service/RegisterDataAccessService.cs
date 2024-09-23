@@ -1,5 +1,7 @@
 ﻿
 using Authentication.User.DataAccess.Repositories;
+using Authentication.User.DataAccess.Service.StoreServices.Interfaces;
+using Authentication.User.DataAccess.Service.StoreServices.Services;
 using Authentication.User.DataAccess.Service.UserServices.Interfaces;
 using Authentication.User.DataAccess.Service.UserServices.Services;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,7 @@ namespace Authentication.User.DataAccess.Service
             services.AddScoped<IDALAuthenManagerService, DALAuthenManagerService>();
             services.AddScoped<IDALUserManagerService, DALUserManagerService>();
             services.AddScoped<IDALUserTokenMannagerService, DALUserTokenMannagerService>();
+            services.AddScoped<IDALStoreManager, DALStoreManager>();
             return services;
         }
     }

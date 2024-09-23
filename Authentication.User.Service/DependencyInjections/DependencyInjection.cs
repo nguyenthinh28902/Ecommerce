@@ -21,6 +21,8 @@ namespace Authentication.User.Service.DependencyInjections
         {
             services.AddRegisterDataAccessService(configuration);
             services.AddAutoMapper(typeof(MappingUser));
+            services.AddAutoMapper(typeof(MappingStore));
+
             services.AddScoped<EmailLibrary>();
             services.AddTransient<IEmailService, SendMailService>();
 

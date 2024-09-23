@@ -1,6 +1,7 @@
 ﻿
 
 using Authentication.User.DataAccess.Entities;
+using Authentication.User.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,7 @@ namespace Authentication.User.DataAccess
             });
 
             services.AddIdentity<ApplicationUser, ApplicationRole>().AddEntityFrameworkStores<AuthenticationUserDbContext>().AddDefaultTokenProviders();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }
     }
