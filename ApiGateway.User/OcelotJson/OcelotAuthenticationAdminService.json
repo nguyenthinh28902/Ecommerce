@@ -1,0 +1,65 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/Authentication/v1/sigin-google",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "Get",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7228"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Authentication/v1/sigin-google",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Authentication/v1/sign-in",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "Post",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7228"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Authentication/v1/sign-in",
+      "UpstreamHttpMethod": [ "Post" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/Authentication/v1/confirm-email",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "Post",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7228"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Authentication/v1/confirm-email",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "loginview",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "Get",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7228"
+        }
+      ],
+      "UpstreamPathTemplate": "loginview",
+      "UpstreamHttpMethod": [ "Get" ]
+
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7279"
+  }
+}
