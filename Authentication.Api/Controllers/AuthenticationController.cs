@@ -1,6 +1,7 @@
 ﻿using Authentication.User.Service.Services.GoogleServices.Interfaces;
 using Authentication.User.Service.Services.UserServices.Interfaces;
 using Authentication.User.Service.ViewModels.SignInViewModels;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,9 +58,19 @@ namespace Authentication.Api.Controllers
             return Redirect(returnUrl);
         }
 
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
+        [Route("v1/Demo")]
         public async Task<IActionResult> Demo()
+        {
+
+            return Ok("Demo");
+        }
+
+        [Authorize(AuthenticationSchemes = "JwtAuthenticationAdmin")]
+        [HttpGet]
+        [Route("v1/adminjwt")]
+        public async Task<IActionResult> adminjwt()
         {
 
             return Ok("Demo");

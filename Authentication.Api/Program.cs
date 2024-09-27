@@ -14,6 +14,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRegisterConfiguration(builder.Configuration);
 builder.Services.AddServiceLayer(builder.Configuration);
 builder.Services.AddControllers();
+
+builder.Services.AddAuthorization();
+builder.Services.AddCors();
 builder.Services.AddHttpContextAccessor();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -22,7 +25,6 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddGoogle(options =>
 {
@@ -43,7 +45,23 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["JwtSetting:Aud"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSetting:Key"] ?? ""))
     };
+}).AddJwtBearer("JwtAuthenticationAdmin", option =>
+{
+    option.SaveToken = true;
+    option.RequireHttpsMetadata = false;
+    option.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JwtAdminSetting:Issuer"],
+        ValidAudience = builder.Configuration["JwtAdminSetting:Aud"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtAdminSetting:Key"] ?? ""))
+    };
 });
+
+
 
 builder.Services.AddSwaggerGen(option =>
 {
@@ -58,7 +76,7 @@ builder.Services.AddSwaggerGen(option =>
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
-
+  
     option.OperationFilter<AuthorizationOperationFilter>();
 });
 var app = builder.Build();

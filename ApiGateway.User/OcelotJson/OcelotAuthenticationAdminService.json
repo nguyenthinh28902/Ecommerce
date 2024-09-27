@@ -57,6 +57,21 @@
       "UpstreamPathTemplate": "loginview",
       "UpstreamHttpMethod": [ "Get" ]
 
+    },
+    {
+      "DownstreamPathTemplate": "loginview",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "Post",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7228"
+        }
+      ],
+      "UpstreamPathTemplate": "loginview",
+      "UpstreamHttpMethod": [ "Post" ]
+
     }
   ],
   "GlobalConfiguration": {

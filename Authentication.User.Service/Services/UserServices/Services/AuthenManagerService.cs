@@ -81,11 +81,12 @@ namespace Authentication.User.Service.Services.UserServices.Services
                 return signInResult;
             }
             var email = userInfo.Principal.FindFirstValue(ClaimTypes.Email) ?? string.Empty;
-            signInResult = await SignInAsync(email);
+            var IsComfirm = false;
+            signInResult = await SignInAsync(email, IsComfirm);
             return signInResult;
         }
 
-        public async Task<SignInResultViewModel> SignInAsync(string Email)
+        public async Task<SignInResultViewModel> SignInAsync(string Email, bool IsComfirm = false)
         {
             var signInResult = new SignInResultViewModel();
             var user = await _dALUserManagerService.GetUserByUserNameAsync(Email);
@@ -93,7 +94,7 @@ namespace Authentication.User.Service.Services.UserServices.Services
             if (user == null)
             {
                 var registerUser = new RegisterUserViewModel(Email, Email, Email, string.Empty);
-                var registerResult = await RegisterUserAsync(registerUser);
+                var registerResult = await RegisterUserAsync(registerUser, IsComfirm);
                 if (registerResult.IsSuccess == false)
                 {
                     signInResult.Message = Message.MessageInforFailure;
@@ -115,6 +116,7 @@ namespace Authentication.User.Service.Services.UserServices.Services
                 var IpAddress = _accessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
                 var userToken = DataModel.CreateUserToken(jwtToken.Token, EnumLoginProvider.Default.ToString(), AppName,
                     jwtToken.ExpiresAt, user?.Id ?? string.Empty, TokenType.login, IpAddress ?? string.Empty);
+                signInResult.IsSucceeded = true;
                 await _dALUserTokenMannagerService.CreateAsync(userToken);
             }
             catch (Exception)
@@ -174,9 +176,13 @@ namespace Authentication.User.Service.Services.UserServices.Services
             confirmEmailViewModel.Message = IsConfirmEmail ? "Xác nhận mã thành công." : "Xác nhận mã thất bại.";
             return confirmEmailViewModel;
         }
-        public async Task<ResultModel<string>> RegisterUserAsync(RegisterUserViewModel registerUserViewModel)
+        public async Task<ResultModel<string>> RegisterUserAsync(RegisterUserViewModel registerUserViewModel, bool IsComfirm = false)
         {
             var user = _mapper.Map<ApplicationUser>(registerUserViewModel);
+            if (IsComfirm)
+            {
+                user.EmailConfirmed = true;
+            }
             var resultModel = new ResultModel<string>();
             var checkUser = await _dALUserManagerService.FirstOrDefaultAsync(x => x.Id == user.Id
                 || x.UserName == user.UserName
