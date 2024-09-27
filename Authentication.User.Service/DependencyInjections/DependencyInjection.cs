@@ -13,6 +13,8 @@ using Authentication.User.Service;
 using Authentication.User.Service.Services.UserServices.Interfaces;
 using Authentication.User.Service.Services.UserServices.Services;
 using Authentication.User.DataAccess.Service;
+using Authentication.User.Service.Services.GoogleServices.Interfaces;
+using Authentication.User.Service.Services.GoogleServices.Services;
 namespace Authentication.User.Service.DependencyInjections
 {
     public static class DependencyInjection
@@ -28,6 +30,10 @@ namespace Authentication.User.Service.DependencyInjections
 
             services.AddScoped<IJwtUtils, JwtUtils>();
             services.AddScoped<IAuthenManagerService, AuthenManagerService>();
+            services.AddHttpClient<IGoogleTokenService, GoogleTokenService>();
+
+            services.AddScoped<IUserInformationService, UserInformationService>();
+            services.AddScoped<IUserManagerService, UserManagerService>();
 
             return services;
         }

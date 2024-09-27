@@ -21,14 +21,8 @@ namespace Authentication.User.Service.Helpers.Jwts
         }
         public JwtToken GenerateToken(UserViewModel user)
         {
-
             var Claims = new List<Claim>();
             Claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            Claims.Add(new Claim(CustomClaimTypes.UserName, user.UserName.ToString()));
-            Claims.Add(new Claim(ClaimTypes.GivenName, user.DisplayName.ToString()));
-            Claims.Add(new Claim(ClaimTypes.MobilePhone, user.PhoneNumber.ToString()));
-            Claims.Add(new Claim(ClaimTypes.Email, user.Email.ToString()));
-            Claims.Add(new Claim("avatar", user.Avatar.ToString()));
             Claims.Add(new Claim(JwtRegisteredClaimNames.Aud, _appSettings.Aud));
             var ExpiryDuration = new TimeSpan(_appSettings.ExpireHours, _appSettings.ExpireMinutes, _appSettings.ExpireSeconds);
             var expiresAt = DateTime.Now.Add(ExpiryDuration);

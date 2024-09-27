@@ -22,6 +22,24 @@ namespace Authentication.User.DataAccess.Service.StoreServices.Services
             _userRepository = unitOfWork.GetRepository<Store>();
             _logger = logger;
         }
+
+        public async Task<bool> IsStoreOwerAsync(string StoreOwer)
+        {
+            var IsStoreOwer = await _userRepository.AnyAsync(x => x.StoreOwer.ToLower() == StoreOwer.ToLower());
+            return IsStoreOwer;
+        }
+
+        public async Task<bool> IsStoreByEmailAsync(string Email)
+        {
+            var IsStoreOwer = await _userRepository.AnyAsync(x => x.Email.ToLower() == Email.ToLower());
+            return IsStoreOwer;
+        }
+        public async Task<bool> IsStoreByPhoneNumberAsync(string PhoneNumber)
+        {
+            var IsStoreOwer = await _userRepository.AnyAsync(x => x.PhoneNumber.ToLower() == PhoneNumber.ToLower());
+            return IsStoreOwer;
+        }
+
         public async Task<Store> CreateAsync(Store store)
         {
             try

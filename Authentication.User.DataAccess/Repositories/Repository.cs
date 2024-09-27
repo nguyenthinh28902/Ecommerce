@@ -47,6 +47,13 @@ namespace Authentication.User.DataAccess.Repositories
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
         }
+
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate )
+        {
+            IQueryable<T> query = _dbSet;
+            return await query.AnyAsync(predicate); 
+        }
+
         public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate = null,
           Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
           Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,

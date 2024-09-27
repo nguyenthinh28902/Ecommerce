@@ -1,6 +1,9 @@
 ﻿using Authentication.User.DataAccess.Entities;
+using Authentication.User.DataAccess.Repositories;
+using Authentication.User.DataAccess.Service.DataModels;
 using Authentication.User.DataAccess.Service.SignInModels;
 using Authentication.User.DataAccess.Service.UserServices.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,14 +17,14 @@ namespace Authentication.User.DataAccess.Service.UserServices.Services
     public class DALAuthenManagerService : IDALAuthenManagerService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly AuthenticationUserDbContext _context; // do dùng unitofwork nên dùng chung 1 phiên làm việc. phải lưu lại.
-        public DALAuthenManagerService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, 
-            AuthenticationUserDbContext context)
+        private readonly SignInManager<ApplicationUser> _signInManager; // do dùng unitofwork nên dùng chung 1 phiên làm việc. phải lưu lại.
+        private readonly IUnitOfWork _unitOfWork;
+        public DALAuthenManagerService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<SignInResultModel?> SignInResultAsync(string UserName, string PassWord, bool RememberMe = false)
@@ -39,6 +42,23 @@ namespace Authentication.User.DataAccess.Service.UserServices.Services
             }
             return null;
         }
+        public async Task<ApplicationUser?> SignInResultAsync(string UserName)
+        {
+            var userSignIn = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == UserName);
+            if (userSignIn != null)
+            {
+                try
+                {
+                    await _signInManager.SignInAsync(userSignIn, true);
+                }
+                catch (Exception ex)
+                {
+
+                    return null;
+                }
+            }
+            return userSignIn;
+        }
 
         /// <summary>
         /// Confirm Email
@@ -53,7 +73,7 @@ namespace Authentication.User.DataAccess.Service.UserServices.Services
             {
                 user.UpdateAt = DateTimeOffset.UtcNow;
                 var demo = await _userManager.UpdateAsync(user);
-                await _context.SaveChangesAsync();
+                await _unitOfWork.SaveChangeAsync();
             }
             catch (Exception)
             {
@@ -96,6 +116,46 @@ namespace Authentication.User.DataAccess.Service.UserServices.Services
             if (user == null) return string.Empty;
             return await GenerateEmailConfirmationTokenAsync(user);
         }
+        public async Task<DataResultModel<ApplicationUser>> CreateAsync(ApplicationUser user, string PassWord)
+        {
+            var dataResult = new DataResultModel<ApplicationUser>();
+            try
+            {
+                if(!string.IsNullOrEmpty(PassWord))
+                {
+                    await _userManager.CreateAsync(user, PassWord);
+                }
+                else
+                {
+                    await _userManager.CreateAsync(user);
+                }
+                await _unitOfWork.SaveChangeAsync();
+                dataResult.Value = user;
+                dataResult.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                dataResult.IsSuccess = false;
+                dataResult.Message = ex.Message;
+            }
+            return dataResult;
+        }
+        public async Task<IList<AuthenticationScheme>> ExternalLogins()
+        {
+            return (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        }
 
+        public async Task<AuthenticationProperties> ExternalLoginAsync(string provider, string returnUrl)
+        {
+            var properties =
+                _signInManager.ConfigureExternalAuthenticationProperties(provider, returnUrl);
+            return properties;
+        }
+
+        public async Task<ExternalLoginInfo?> GetExternalLoginInfoAsync()
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            return info;
+        }
     }
 }

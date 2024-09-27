@@ -4,17 +4,22 @@ using Authentication.User.DataAccess.Service.UserServices.Interfaces;
 using Authentication.User.Service.Constructors;
 using Authentication.User.Service.Helpers.Jwts;
 using Authentication.User.Service.Services.EmailService;
+using Authentication.User.Service.Services.GoogleServices.DataModels;
+using Authentication.User.Service.Services.GoogleServices.Interfaces;
 using Authentication.User.Service.Services.UserServices.Interfaces;
+using Authentication.User.Service.ViewModels;
 using Authentication.User.Service.ViewModels.Enum;
 using Authentication.User.Service.ViewModels.SignInViewModels;
 using Authentication.User.Service.ViewModels.UserViewModels;
 using AutoMapper;
 using FeatureLibrary.IOLibrary;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,10 +34,12 @@ namespace Authentication.User.Service.Services.UserServices.Services
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _accessor;
         private readonly IDALUserTokenMannagerService _dALUserTokenMannagerService;
+        private readonly IGoogleTokenService _googleTokenService;
         public AuthenManagerService(IDALAuthenManagerService dALAuthenManagerService, IDALUserManagerService dALUserManagerService,
            IEmailService sendMailService, IJwtUtils jwtUtils, IMapper mapper,
            IHttpContextAccessor accessor,
-           IDALUserTokenMannagerService dALUserTokenMannagerService)
+           IDALUserTokenMannagerService dALUserTokenMannagerService,
+           IGoogleTokenService googleTokenService)
         {
             _dALAuthenManagerService = dALAuthenManagerService;
             _dALUserManagerService = dALUserManagerService;
@@ -41,29 +48,16 @@ namespace Authentication.User.Service.Services.UserServices.Services
             _mapper = mapper;
             _accessor = accessor;
             _dALUserTokenMannagerService = dALUserTokenMannagerService;
+            _googleTokenService = googleTokenService;
         }
 
         public async Task<SignInResultViewModel> SignInAsync(SignInViewModel signInViewModel, string urlComfirm)
         {
             var signInResult = await CheckSignInAsync(signInViewModel);
             var user = await _dALUserManagerService.GetUserByUserNameAsync(signInViewModel.UserName);
-            if (signInResult.IsSucceeded)
+            if (signInResult.IsSucceeded && user != null)
             {
-                var userViewModel = _mapper.Map<UserViewModel>(user);
-                try
-                {
-                    var jwtToken = _jwtUtils.GenerateToken(userViewModel);
-                    signInResult.Token = jwtToken.Token;
-                    var IpAddress = _accessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
-                    var userToken = DataModel.CreateUserToken(jwtToken.Token, EnumLoginProvider.Default.ToString(), signInViewModel.AppName,
-                        jwtToken.ExpiresAt, user?.Id ?? string.Empty, TokenType.login, IpAddress ?? string.Empty);
-                    await _dALUserTokenMannagerService.CreateAsync(userToken);
-                }
-                catch (Exception)
-                {
-                    signInResult.IsSucceeded = false;
-                    signInResult.Message = "Có lỗi trong quá trính xử lý";
-                }
+                signInResult = await GenerateToken(user, signInViewModel.AppName.ToString());
             }
             else if (user != null)
             {
@@ -72,6 +66,61 @@ namespace Authentication.User.Service.Services.UserServices.Services
                     var IsAuthenSendMail = await AuthenSendMail(user, urlComfirm);
                     signInResult.Message = IsAuthenSendMail ? "Kiểm tra email" : "Có lỗi trong quá trính xử lý";
                 }
+            }
+            return signInResult;
+        }
+
+        public async Task<SignInResultViewModel> SignInGoogle()
+        {
+            var signInResult = new SignInResultViewModel();
+
+            var userInfo = await _dALAuthenManagerService.GetExternalLoginInfoAsync();
+            if (userInfo == null)
+            {
+                signInResult.Message = Message.MessageSiginFailure;
+                return signInResult;
+            }
+            var email = userInfo.Principal.FindFirstValue(ClaimTypes.Email) ?? string.Empty;
+            signInResult = await SignInAsync(email);
+            return signInResult;
+        }
+
+        public async Task<SignInResultViewModel> SignInAsync(string Email)
+        {
+            var signInResult = new SignInResultViewModel();
+            var user = await _dALUserManagerService.GetUserByUserNameAsync(Email);
+            
+            if (user == null)
+            {
+                var registerUser = new RegisterUserViewModel(Email, Email, Email, string.Empty);
+                var registerResult = await RegisterUserAsync(registerUser);
+                if (registerResult.IsSuccess == false)
+                {
+                    signInResult.Message = Message.MessageInforFailure;
+                    return signInResult;
+                }
+            }
+            user = await _dALAuthenManagerService.SignInResultAsync(Email);
+            if (user == null) { throw new Exception(); }
+            signInResult = await GenerateToken(user, EnumLoginAppName.Google.ToString());
+            return signInResult;
+        }
+        public async Task<SignInResultViewModel> GenerateToken(ApplicationUser user, string AppName) {
+            var signInResult = new SignInResultViewModel();
+            var userViewModel = _mapper.Map<UserViewModel>(user);
+            try
+            {
+                var jwtToken = _jwtUtils.GenerateToken(userViewModel);
+                signInResult.Token = jwtToken.Token;
+                var IpAddress = _accessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+                var userToken = DataModel.CreateUserToken(jwtToken.Token, EnumLoginProvider.Default.ToString(), AppName,
+                    jwtToken.ExpiresAt, user?.Id ?? string.Empty, TokenType.login, IpAddress ?? string.Empty);
+                await _dALUserTokenMannagerService.CreateAsync(userToken);
+            }
+            catch (Exception)
+            {
+                signInResult.IsSucceeded = false;
+                signInResult.Message = "Có lỗi trong quá trính xử lý";
             }
             return signInResult;
         }
@@ -125,6 +174,33 @@ namespace Authentication.User.Service.Services.UserServices.Services
             confirmEmailViewModel.Message = IsConfirmEmail ? "Xác nhận mã thành công." : "Xác nhận mã thất bại.";
             return confirmEmailViewModel;
         }
+        public async Task<ResultModel<string>> RegisterUserAsync(RegisterUserViewModel registerUserViewModel)
+        {
+            var user = _mapper.Map<ApplicationUser>(registerUserViewModel);
+            var resultModel = new ResultModel<string>();
+            var checkUser = await _dALUserManagerService.FirstOrDefaultAsync(x => x.Id == user.Id
+                || x.UserName == user.UserName
+                || (x.Email != null && x.Email.ToLower() == user.Email.ToLower())
+                || (x.PhoneNumber != null && x.PhoneNumber.ToLower() == user.PhoneNumber.ToLower()));
+            if (checkUser == null)
+            {
+                var resultData = await _dALAuthenManagerService.CreateAsync(user, registerUserViewModel.Password);
+                resultModel.IsSuccess = resultData.IsSuccess;
+                resultModel.Value = resultData.Value?.Id ?? string.Empty;
+            }
 
+            resultModel.Message = resultModel.IsSuccess ? "Tạo mới thành công" : "Tạo mới thất bại";
+            return resultModel;
+        }
+        public async Task<IList<AuthenticationScheme>> GetExternalLoginsAsync()
+        {
+            return await _dALAuthenManagerService.ExternalLogins();
+        }
+        public async Task<AuthenticationProperties> ExternalLoginAsync(string provider, string returnUrl)
+        {
+            return await _dALAuthenManagerService.ExternalLoginAsync(provider, returnUrl);
+        }
+
+        
     }
 }

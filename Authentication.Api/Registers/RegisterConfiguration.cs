@@ -9,6 +9,7 @@ namespace Authentication.User.Api.Registers
         {
             services.Configure<EmailSetting>(configuration.GetSection("EmailSetting"));
             services.Configure<JwtSetting>(configuration.GetSection("JwtSetting"));
+            services.Configure<GoogleApiSetting>(configuration.GetSection(nameof(GoogleApiSetting)));
             return services;
         }
     }

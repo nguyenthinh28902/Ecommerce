@@ -15,6 +15,7 @@ namespace Authentication.User.DataAccess.Repositories
         Task AddAsync(T entity);
         void Update(T entity);
         Task DeleteAsync(object id);
+        public Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
         public Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate = null,
           Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
           Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,

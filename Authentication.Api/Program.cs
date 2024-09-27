@@ -8,6 +8,8 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllersWithViews();
+
 // Add services to the container.
 builder.Services.AddRegisterConfiguration(builder.Configuration);
 builder.Services.AddServiceLayer(builder.Configuration);
@@ -21,6 +23,11 @@ builder.Services.AddAuthentication(options =>
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["GoogleApiSetting:ClientId"] ?? string.Empty;
+    options.ClientSecret = builder.Configuration["GoogleApiSetting:ClientSecret"] ?? string.Empty;
 })
 .AddJwtBearer(option =>
 {

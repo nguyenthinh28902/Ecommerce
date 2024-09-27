@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,7 @@ namespace Authentication.User.Service.ViewModels.StoreViewModels
         [Required]
         public string TaxCode { get; set; }
         [Phone]
+        [DisplayName("SDT")]
         public string PhoneNumber { get; set; }
         [EmailAddress]
         public string Email { get; set; }

@@ -10,4 +10,9 @@ namespace Authentication.User.Service.ViewModels.Enum
     {
         Default = 0,
     }
+    public enum EnumLoginAppName
+    {
+        Default,
+        Google
+    }
 }
