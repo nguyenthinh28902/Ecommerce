@@ -1,6 +1,7 @@
 using Authentication.Api.Helpers;
 using Authentication.User.Api.Registers;
 using Authentication.User.Service.DependencyInjections;
+using Authentication.User.Service.ViewModels.Enum;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -45,7 +46,7 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["JwtSetting:Aud"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSetting:Key"] ?? ""))
     };
-}).AddJwtBearer("JwtAuthenticationAdmin", option =>
+}).AddJwtBearer(AuthenticationApp.Admin, option =>
 {
     option.SaveToken = true;
     option.RequireHttpsMetadata = false;

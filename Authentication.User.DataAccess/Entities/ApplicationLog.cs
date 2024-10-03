@@ -11,6 +11,7 @@ namespace Authentication.User.DataAccess.Entities
     [Table("ApplicationLogs", Schema = TableCategory.Default)]
     public partial class ApplicationLog
     {
+
         public Guid Id { get; set; }
 
         public Guid UserId { get; set; }
@@ -19,8 +20,10 @@ namespace Authentication.User.DataAccess.Entities
 
         public string TableName { get; set; } = null!;
 
-        public int RecordId { get; set; }
+        public string RecordId { get; set; }
 
-        public DateTimeOffset CreatedAt { get; set; }
+        public bool IsAction {  get; set; }
+
+        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     }
 }

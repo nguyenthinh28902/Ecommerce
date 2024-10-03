@@ -14,29 +14,29 @@ namespace Authentication.User.DataAccess.Service.StoreServices.Services
     public class DALStoreManager : IDALStoreManager
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<Store> _userRepository;
+        private readonly IRepository<Store> _storeRepository;
         private readonly ILogger<DALStoreManager> _logger;
         public DALStoreManager(IUnitOfWork unitOfWork, ILogger<DALStoreManager> logger)
         {
             _unitOfWork = unitOfWork;
-            _userRepository = unitOfWork.GetRepository<Store>();
+            _storeRepository = unitOfWork.GetRepository<Store>();
             _logger = logger;
         }
 
         public async Task<bool> IsStoreOwerAsync(string StoreOwer)
         {
-            var IsStoreOwer = await _userRepository.AnyAsync(x => x.StoreOwer.ToLower() == StoreOwer.ToLower());
+            var IsStoreOwer = await _storeRepository.AnyAsync(x => x.StoreOwer.ToLower() == StoreOwer.ToLower());
             return IsStoreOwer;
         }
 
         public async Task<bool> IsStoreByEmailAsync(string Email)
         {
-            var IsStoreOwer = await _userRepository.AnyAsync(x => x.Email.ToLower() == Email.ToLower());
+            var IsStoreOwer = await _storeRepository.AnyAsync(x => x.Email.ToLower() == Email.ToLower());
             return IsStoreOwer;
         }
         public async Task<bool> IsStoreByPhoneNumberAsync(string PhoneNumber)
         {
-            var IsStoreOwer = await _userRepository.AnyAsync(x => x.PhoneNumber.ToLower() == PhoneNumber.ToLower());
+            var IsStoreOwer = await _storeRepository.AnyAsync(x => x.PhoneNumber.ToLower() == PhoneNumber.ToLower());
             return IsStoreOwer;
         }
 
@@ -44,7 +44,7 @@ namespace Authentication.User.DataAccess.Service.StoreServices.Services
         {
             try
             {
-                await _userRepository.AddAsync(store);
+                await _storeRepository.AddAsync(store);
                 await _unitOfWork.CommitAsync();
                 await _unitOfWork.SaveChangeAsync();
             }
@@ -59,11 +59,17 @@ namespace Authentication.User.DataAccess.Service.StoreServices.Services
             
         }
 
+        public async Task<Store?> GetStoreByIdAsync(Guid Id)
+        {
+            var store =  await _storeRepository.GetByIdAsync(Id);
+            return store;
+        }
+
         public async Task<bool> UpdateAsync(Store store)
         {
             try
             {
-                _userRepository.Update(store);
+                _storeRepository.Update(store);
                 await _unitOfWork.CommitAsync();
                 await _unitOfWork.SaveChangeAsync();
             }

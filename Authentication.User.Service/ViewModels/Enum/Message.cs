@@ -14,5 +14,8 @@ namespace Authentication.User.Service.ViewModels.Enum
         public const string MessageCreateFailure = "Đăng ký thất bại.";
         public const string MessageSiginFailure = "Đăng nhập thất bại.";
         public const string MessageInforFailure = "Người dùng không tồn tại.";
+
+        public const string MessageApproveSuccess = "Duyệt thành công";
+        public const string MessageApproveFailure = "Duyệt thất bại";
     }
 }

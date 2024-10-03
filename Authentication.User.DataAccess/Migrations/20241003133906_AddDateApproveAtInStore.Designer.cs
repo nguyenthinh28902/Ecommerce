@@ -4,6 +4,7 @@ using Authentication.User.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Authentication.User.DataAccess.Migrations
 {
     [DbContext(typeof(AuthenticationUserDbContext))]
-    partial class AuthenticationUserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241003133906_AddDateApproveAtInStore")]
+    partial class AddDateApproveAtInStore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,12 +34,8 @@ namespace Authentication.User.DataAccess.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<bool>("IsAction")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("RecordId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RecordId")
+                        .HasColumnType("int");
 
                     b.Property<string>("TableName")
                         .IsRequired()

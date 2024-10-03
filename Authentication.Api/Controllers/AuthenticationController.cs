@@ -1,6 +1,8 @@
 ﻿using Authentication.User.Service.Services.GoogleServices.Interfaces;
 using Authentication.User.Service.Services.UserServices.Interfaces;
+using Authentication.User.Service.ViewModels.Enum;
 using Authentication.User.Service.ViewModels.SignInViewModels;
+using Authentication.User.Service.ViewModels.StoreViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -67,10 +69,10 @@ namespace Authentication.Api.Controllers
             return Ok("Demo");
         }
 
-        [Authorize(AuthenticationSchemes = "JwtAuthenticationAdmin")]
-        [HttpGet]
+        [AllowAnonymous]
+        [HttpPost]
         [Route("v1/adminjwt")]
-        public async Task<IActionResult> adminjwt()
+        public async Task<IActionResult> adminjwt([FromBody] RegisterStoreViewModel registerStoreViewModel)
         {
 
             return Ok("Demo");

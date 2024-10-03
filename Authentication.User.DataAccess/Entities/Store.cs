@@ -35,6 +35,7 @@ namespace Authentication.User.DataAccess.Entities
         public string WebsiteURL { get; set; } = null!;
         public bool IsActive { get; set; }
         public bool IsApprove { get; set; }
+        public DateTimeOffset? ApproveAt { get; set; }
         [ForeignKey("StoreOwer")]
         public virtual ApplicationUser ApplicationUser { get; set; }
     }

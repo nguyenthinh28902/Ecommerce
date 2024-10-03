@@ -15,6 +15,12 @@ using Authentication.User.Service.Services.UserServices.Services;
 using Authentication.User.DataAccess.Service;
 using Authentication.User.Service.Services.GoogleServices.Interfaces;
 using Authentication.User.Service.Services.GoogleServices.Services;
+using Authentication.User.Service.Services.ApplicationLogService.Interfaces;
+using Authentication.User.Service.Services.ApplicationLogService.Services;
+using Authentication.User.Service.Services.StoreServices.Interfaces;
+using Authentication.User.Service.Services.StoreServices.Services;
+using Authentication.User.Service.Services.StoreServices.Interfaces.AdminService;
+using Authentication.User.Service.Services.StoreServices.Services.AdminService;
 namespace Authentication.User.Service.DependencyInjections
 {
     public static class DependencyInjection
@@ -34,6 +40,10 @@ namespace Authentication.User.Service.DependencyInjections
 
             services.AddScoped<IUserInformationService, UserInformationService>();
             services.AddScoped<IUserManagerService, UserManagerService>();
+
+            services.AddScoped<IApplicationLogManagerService, ApplicationLogManagerService>();
+            services.AddScoped<IStoreManagerAdminServices, StoreManagerAdminServices>();
+            services.AddScoped<IStoreManagerServices, StoreManagerServices>();
 
             return services;
         }

@@ -1,5 +1,7 @@
 ﻿
 using Authentication.User.DataAccess.Repositories;
+using Authentication.User.DataAccess.Service.ApplicationLogService.Interfaces;
+using Authentication.User.DataAccess.Service.ApplicationLogService.Services;
 using Authentication.User.DataAccess.Service.StoreServices.Interfaces;
 using Authentication.User.DataAccess.Service.StoreServices.Services;
 using Authentication.User.DataAccess.Service.UserServices.Interfaces;
@@ -24,6 +26,7 @@ namespace Authentication.User.DataAccess.Service
             services.AddScoped<IDALUserManagerService, DALUserManagerService>();
             services.AddScoped<IDALUserTokenMannagerService, DALUserTokenMannagerService>();
             services.AddScoped<IDALStoreManager, DALStoreManager>();
+            services.AddScoped<IDalApplicationLogManager, DalApplicationLogManager>();
             return services;
         }
     }

@@ -57,10 +57,5 @@ namespace Authentication.User.Service.ViewModels.StoreViewModels
         public string PostalCode { get; set; }
         [Url]
         public string WebsiteURL { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsApprove { get; set; }
-        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-        public DateTimeOffset? UpdateAt { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }

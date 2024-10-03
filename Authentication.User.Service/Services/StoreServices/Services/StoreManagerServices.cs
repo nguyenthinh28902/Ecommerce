@@ -34,6 +34,12 @@ namespace Authentication.User.Service.Services.StoreServices.Services
             var resultModel = new ResultModel<Guid>();
             var userId = _userInformationService.GetUserId();
             if (string.IsNullOrEmpty(userId)) throw new NotFoundException(Message.MessageNotFoundUserLogin);
+            //kiểm trả user đã tạo cửa hàng chưa
+            if(await _dALStoreManager.IsStoreOwerAsync(userId))
+            {
+                resultModel.Message = "Bạn đang quản lý cửa hàng.";
+                return resultModel;
+            }
             var storeNew = _mapper.Map<Store>(registerStoreViewModel);
             storeNew.StoreOwer = userId;
             if (string.IsNullOrEmpty(storeNew.PhoneNumber) || string.IsNullOrEmpty(storeNew.Email))
@@ -57,5 +63,6 @@ namespace Authentication.User.Service.Services.StoreServices.Services
             return resultModel;
 
         }
+
     }
 }
