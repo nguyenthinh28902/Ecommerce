@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Authentication.Admin.DataAccess\Authentication.Admin.DataAccess.csproj" />
-    <ProjectReference Include="..\FeatureLibrary\FeatureLibrary.csproj" />
+    <ProjectReference Include="..\..\FeatureLibrary\FeatureLibrary.csproj" />
   </ItemGroup>
 
 </Project>
