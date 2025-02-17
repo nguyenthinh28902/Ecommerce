@@ -81,8 +81,20 @@ namespace Authentication.User.Service.Services.UserServices.Services
                 return signInResult;
             }
             var email = userInfo.Principal.FindFirstValue(ClaimTypes.Email) ?? string.Empty;
+            var avatarUrl = userInfo.Principal.FindFirstValue("image");
             var IsComfirm = false;
-            signInResult = await SignInAsync(email, IsComfirm);
+            var user = await _dALUserManagerService.GetUserByUserNameAsync(email);
+            if (user == null)
+            {
+                var registerUser = new RegisterUserViewModel(email, email, email, string.Empty, avatarUrl);
+                var registerResult = await RegisterUserAsync(registerUser, IsComfirm);
+                if (registerResult.IsSuccess == false)
+                {
+                    signInResult.Message = Message.MessageInforFailure;
+                    return signInResult;
+                }
+            }
+                signInResult = await SignInAsync(email, IsComfirm);
             return signInResult;
         }
 
@@ -90,7 +102,6 @@ namespace Authentication.User.Service.Services.UserServices.Services
         {
             var signInResult = new SignInResultViewModel();
             var user = await _dALUserManagerService.GetUserByUserNameAsync(Email);
-            
             if (user == null)
             {
                 var registerUser = new RegisterUserViewModel(Email, Email, Email, string.Empty);
@@ -106,6 +117,7 @@ namespace Authentication.User.Service.Services.UserServices.Services
             signInResult = await GenerateToken(user, EnumLoginAppName.Google.ToString());
             return signInResult;
         }
+
         public async Task<SignInResultViewModel> GenerateToken(ApplicationUser user, string AppName) {
             var signInResult = new SignInResultViewModel();
             var userViewModel = _mapper.Map<UserViewModel>(user);
